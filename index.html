@@ -1,0 +1,235 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test site 1</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <a href="#" class="logo">TEST SITE<span>.</span></a>
+
+        <button class="menu-toggle" id="menuToggle">
+            ☰
+        </button>
+
+        <nav id="navigation">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#creations">Creations</a>
+            <a href="#community">Community</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero" id="home">
+            <p class="eyebrow">WELCOME TO MY SPACE</p>
+            <h1>Creating.<br>Capturing.<br><span>Sharing.</span></h1>
+
+            <p class="intro">
+                A personal space for my photography,
+                designs, projects, and everything in between.
+            </p>
+
+            <a href="#creations" class="main-button">
+                Explore my work →
+            </a>
+        </section>
+
+
+<section class="about section" id="about">
+    <p class="eyebrow">01 / ABOUT ME</p>
+
+    <div class="profile-container">
+
+        <div class="profile-picture-area">
+            <img
+                id="profilePicture"
+                src=""
+                alt="Profile picture"
+            >
+
+            <label for="profileUpload" class="upload-button">
+                Change picture
+            </label>
+
+            <input
+                type="file"
+                id="profileUpload"
+                accept="image/*"
+                hidden
+            >
+        </div>
+
+
+<div class="profile-details">
+    <h2 id="profileName">Your Name</h2>
+
+    <p id="profileBio">
+        Welcome to my personal space.
+        Here I share my photography, designs,
+        projects, and things I enjoy doing.
+    </p>
+
+    <div class="interests" id="profileInterests">
+        <span>Photography</span>
+        <span>Design</span>
+        <span>Gaming</span>
+        <span>Projects</span>
+    </div>
+
+    <button class="main-button" id="editProfile">
+        Edit Profile
+    </button>
+
+    <div id="editProfileForm" hidden>
+        <input id="nameInput" type="text"
+            placeholder="Your name">
+
+        <textarea id="bioInput"
+            placeholder="Write your bio"></textarea>
+
+        <input id="interestsInput" type="text"
+            placeholder="Photography, Design, Gaming">
+
+        <button class="main-button" id="saveProfile">
+            Save Changes
+        </button>
+    </div>
+</div>
+
+</section>
+
+
+        
+<section class="section" id="creations">
+    <p class="eyebrow">02 / MY WORLD</p>
+    <h2>My creations.</h2>
+    <p class="gallery-description">
+        A collection of my photos, artwork, and projects.
+    </p>
+
+    <div class="gallery-controls">
+        <input
+            type="text"
+            id="imageTitle"
+            placeholder="Image title..."
+        >
+
+        <select id="imageCategory">
+            <option value="Photography">Photography</option>
+            <option value="Design">Design</option>
+            <option value="Projects">Projects</option>
+        </select>
+
+        <label for="imageUpload" class="upload-button">
+            + Add image
+        </label>
+
+        <input
+            type="file"
+            id="imageUpload"
+            accept="image/*"
+            hidden
+        >
+    </div>
+
+    <div class="gallery" id="gallery">
+        <p class="empty-gallery">
+            Your creations will appear here.
+        </p>
+    </div>
+</section>
+
+<section class="section account-section" id="account">
+    <p class="eyebrow">MEMBERS ONLY</p>
+    <h2>Private access.</h2>
+    <p>Sign in or request an account to join the community.</p>
+
+    <div id="authForms">
+        <input
+            type="email"
+            id="accountEmail"
+            placeholder="Email address"
+        >
+
+        <input
+            type="password"
+            id="accountPassword"
+            placeholder="Password"
+        >
+
+        <button class="main-button" id="signUpButton">
+            Create Account
+        </button>
+
+        <button class="main-button" id="loginButton">
+            Log In
+        </button>
+
+        <p id="authMessage"></p>
+    </div>
+
+    <div id="pendingMessage" hidden>
+        <h3>Account Pending</h3>
+        <p>Your account is waiting for approval.</p>
+    </div>
+
+    <div id="memberMessage" hidden>
+        <h3>Welcome to the community!</h3>
+        <button class="main-button" id="logoutButton">
+            Log Out
+        </button>
+    </div>
+</section>
+<section class="section admin-section" id="adminPanel" hidden>
+    <p class="eyebrow">OWNER CONTROLS</p>
+    <h2>Admin panel.</h2>
+    <p>Manage invitations to your private community.</p>
+
+    <div class="admin-invite-form">
+        <input
+            type="email"
+            id="inviteEmail"
+            placeholder="Enter email address"
+        >
+
+        <button class="main-button" id="createInviteButton">
+            Create Invitation
+        </button>
+
+        <p id="inviteMessage"></p>
+    </div>
+
+    <div class="admin-invitations">
+        <h3>Invitations</h3>
+        <div id="invitationList">
+            <p>No invitations yet.</p>
+        </div>
+    </div>
+</section>
+        <section class="community section" id="community">
+            <p class="eyebrow">03 / COMMUNITY</p>
+            <h2>A space to connect.</h2>
+            <p>
+                A private space for invited people to share
+                ideas, pictures, and conversations.
+            </p>
+            <button class="main-button" id="communityButton">
+                Coming soon
+            </button>
+        </section>
+    </main>
+
+    <footer>
+        <p>TEST SITE. © 2026</p>
+        <p>Made by me.</p>
+    </footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="script.js"></script>
+</body>
+</html>
