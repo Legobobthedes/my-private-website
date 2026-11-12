@@ -411,3 +411,44 @@ if (logoutButton) {
     authMessage.textContent = "You are logged out.";
   });
 }
+
+const passwordResetForm = document.getElementById("passwordResetForm");
+const saveNewPassword = document.getElementById("saveNewPassword");
+const newPassword = document.getElementById("newPassword");
+const resetMessage = document.getElementById("resetMessage");
+
+supabaseClient.auth.onAuthStateChange((event) => {
+  if (event === "PASSWORD_RECOVERY" && passwordResetForm) {
+    passwordResetForm.hidden = false;
+  }
+});
+
+if (saveNewPassword) {
+  saveNewPassword.addEventListener("click", async () => {
+    const password = newPassword.value;
+
+    if (password.length < 8) {
+      resetMessage.textContent =
+        "Password must be at least 8 characters.";
+      return;
+    }
+
+    saveNewPassword.disabled = true;
+    resetMessage.textContent = "Updating password...";
+
+    const { error } = await supabaseClient.auth.updateUser({
+      password: password
+    });
+
+    if (error) {
+      resetMessage.textContent = error.message;
+    } else {
+      resetMessage.textContent =
+        "Password updated successfully!";
+      newPassword.value = "";
+      passwordResetForm.hidden = true;
+    }
+
+    saveNewPassword.disabled = false;
+  });
+}
