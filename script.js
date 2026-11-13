@@ -390,13 +390,35 @@ if (loginButton) {
       return;
     }
 
-    authMessage.textContent = "Logged in successfully!";
-
     const isAdmin = data.user.app_metadata?.role === "admin";
 
-    if (adminPanel) {
-      adminPanel.hidden = !isAdmin;
-    }
+const { data: profile, error: profileError } =
+  await supabaseClient
+    .from("profiles")
+    .select("approval_status")
+    .eq("id", data.user.id)
+    .single();
+
+if (profileError || !profile) {
+  authMessage.textContent = "Could not check account approval.";
+  await supabaseClient.auth.signOut();
+  return;
+}
+
+if (!isAdmin && profile.approval_status !== "approved") {
+  authMessage.textContent = "Your account is pending approval.";
+  await supabaseClient.auth.signOut();
+  return;
+}
+
+authMessage.textContent = "Logged in successfully!";
+
+if (adminPanel) {
+  adminPanel.hidden = !isAdmin;
+}
+if (isAdmin) {
+    await loadPendingMembers();
+}
   });
 }
 
@@ -451,4 +473,71 @@ if (saveNewPassword) {
 
     saveNewPassword.disabled = false;
   });
+}
+const pendingMembersList =
+  document.getElementById("pendingMembersList");
+
+async function loadPendingMembers() {
+  if (!pendingMembersList) return;
+
+  pendingMembersList.textContent = "Loading members...";
+
+  const { data: members, error } = await supabaseClient
+    .from("profiles")
+    .select("id, email")
+    .eq("approval_status", "pending");
+
+  if (error) {
+    pendingMembersList.textContent =
+      "Could not load pending members.";
+    console.error(error);
+    return;
+  }
+
+  pendingMembersList.innerHTML = "";
+
+  if (!members || members.length === 0) {
+    pendingMembersList.textContent = "No pending members.";
+    return;
+  }
+
+  members.forEach((member) => {
+    const item = document.createElement("div");
+    item.className = "pending-member";
+
+    const email = document.createElement("span");
+    email.textContent = member.email || "New member";
+
+    const approve = document.createElement("button");
+    approve.textContent = "Approve";
+
+    const reject = document.createElement("button");
+    reject.textContent = "Reject";
+
+    approve.addEventListener("click", () =>
+      updateMemberStatus(member.id, "approved")
+    );
+
+    reject.addEventListener("click", () =>
+      updateMemberStatus(member.id, "rejected")
+    );
+
+    item.append(email, approve, reject);
+    pendingMembersList.appendChild(item);
+  });
+}
+
+async function updateMemberStatus(memberId, status) {
+  const { error } = await supabaseClient
+    .from("profiles")
+    .update({ approval_status: status })
+    .eq("id", memberId);
+
+  if (error) {
+    alert("Could not update member approval.");
+    console.error(error);
+    return;
+  }
+
+  await loadPendingMembers();
 }
